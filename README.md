@@ -1,6 +1,6 @@
 # BDA
 
-## Getting Started
+## Getting Started
 
 ```bash
 # Install uv for macOS
