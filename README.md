@@ -1,3 +1,8 @@
+# BDA
+
+## Getting Started
+
+```bash
 # Install uv for macOS
 brew install uv
 # Install uv for Windows
@@ -11,3 +16,4 @@ uv pip sync requirements.txt # Sync the virtual environment with requirements.tx
 
 # Run the application
 uv run analysis.py
+```
