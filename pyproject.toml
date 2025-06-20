@@ -1,0 +1,11 @@
+[project]
+name = "bda"
+version = "0.1.0"
+dependencies = [
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "japanize_matplotlib",
+    "seaborn",
+    "wordcloud",
+]
