@@ -1,3 +1,7 @@
+"""
+正規化したコメントから problem, solution verb, solution object を抽出する
+"""
+
 import spacy
 import re
 import pandas as pd
@@ -61,6 +65,26 @@ def find_subject_verb_object(doc: spacy.tokens.doc.Doc) -> tuple[str, str, str]:
             
     return subject, verb, obj
 
+
+def clean_extracted_text(text: str) -> str:
+    """抽出後のテキストをクリーニングする"""
+    if not isinstance(text, str):
+        return "unknown"
+    
+    # 改行以降を削除
+    text = text.split('\n')[0]
+    
+    # 文末の句読点や不要な記号を削除
+    text = re.sub(r'[.,;!?-]$', '', text.strip())
+    
+    # ハイフン前後のスペースを削除
+    text = re.sub(r'\s*-\s*', '-', text)
+    
+    # 連続するスペースを一つに
+    text = re.sub(r'\s+', ' ', text).strip()
+    
+    return text if text else "unknown"
+
 def extract_critique_by_format(text: str) -> tuple[str, str, str]:
     """
     指定されたフォーマットに従い、UI批評から問題(S)、改善策の動詞(V)、目的語(O)を抽出する。
@@ -122,9 +146,9 @@ def extract_critique_by_format(text: str) -> tuple[str, str, str]:
         solution_obj = s_obj if s_obj != 'unknown' else s_subject
 
     # strip all
-    problem = problem.strip()
-    solution_verb = solution_verb.strip()
-    solution_obj = solution_obj.strip()
+    problem = clean_extracted_text(problem)
+    solution_verb = clean_extracted_text(solution_verb)
+    solution_obj = clean_extracted_text(solution_obj)
     
     return ("unknown" if problem == "" else problem,
             "unknown" if solution_verb == "" else solution_verb,
