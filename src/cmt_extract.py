@@ -65,6 +65,20 @@ def find_subject_verb_object(doc: spacy.tokens.doc.Doc) -> tuple[str, str, str]:
             
     return subject, verb, obj
 
+def pre_clean_text(text: str) -> str:
+    # カッコの中身を削除
+    text = re.sub(r'\([^)]*\)', '', text)
+    text = re.sub(r'\[[^)]*\]', '', text)
+    text = re.sub(r'\'[^)]*\'', '', text)
+    text = text.replace('"', '').replace('""', '').replace('  ', ' ').strip()
+    
+    # "\n" を " " に置換
+    text = text.replace('\\n', ' ')
+    
+    # .\n を削除
+    text = re.sub(r'\.\n', '', text)
+    
+    return text.strip()
 
 def clean_extracted_text(text: str) -> str:
     """抽出後のテキストをクリーニングする"""
@@ -109,25 +123,22 @@ def extract_critique_by_format(text: str) -> tuple[str, str, str]:
     if not isinstance(text, str) or not text.strip():
         return ("unknown", "unknown", "unknown")
 
-    # カッコの中身を削除
-    text = re.sub(r'\([^)]*\)', '', text)
-    text = re.sub(r'\[[^)]*\]', '', text)
-    text = re.sub(r'\'[^)]*\'', '', text)
-    text = text.replace('"', '').replace('""', '').replace('  ', ' ').strip()
-    # print(f"入力テキスト: {text}")
+    # テキストを前処理
+    text = pre_clean_text(text)
     
     # 指定された形式に基づいて、テキストを「問題部」と「解決策部」に分割する正規表現
     pattern = re.compile(
-        r"In the current design,?(.*?)(?:To fix this,)(.*)",
-        re.IGNORECASE | re.DOTALL
+        r"In (the|this) current design,?(.*?)(?:(To fix this|To fix this issue|For example),)(.*)",
+        flags=re.IGNORECASE | re.DOTALL
     )
     match = pattern.search(text)
     if not match:
+        print(f"[Warning] Could not match the expected format.\n\t{text}")
         # print(f"フォーマットに合致しないテキスト: {text}")
         return ("unknown", "unknown", "unknown")
 
-    problem_clause_text = match.group(1).strip().capitalize()
-    solution_clause_text = match.group(2).strip().capitalize()
+    problem_clause_text = match.group(2).strip()
+    solution_clause_text = match.group(4).strip()
 
     # --- 1. "In the current design," に続く文の主語(S)を抽出 ---
     if problem_clause_text:
@@ -184,7 +195,7 @@ def main():
                 lambda text: pd.Series(extract_critique_by_format(text))
             )
         else:
-            print(f"警告: {comment_col} カラムが見つかりません。スキップします。")
+            print(f"Warning: Could not find column '{comment_col}' in the DataFrame. Skipping extraction for this comment.")
 
     # drop comment1_type, comment1_text, ..., comment7_type, comment7_text
     for i in range(1, 8):

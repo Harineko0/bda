@@ -4,7 +4,7 @@ import os
 
 # --- 設定値 ---
 INPUT_CSV = 'dataset_modified/uicrit_id_comments.csv'
-OUTPUT_CSV = 'dataset_for_bda/comments_extracted.csv'
+OUTPUT_CSV = 'dataset_for_bda/comments_normalized.csv'
 # 抽出するコメントの最大数
 MAX_COMMENTS = 7
 
