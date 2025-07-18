@@ -17,4 +17,5 @@ dependencies = [
     # CmdStan
     "cmdstanpy",
     "xarray",
+    "arviz",
 ]
