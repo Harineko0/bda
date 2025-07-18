@@ -1,3 +1,5 @@
 .venv
 archive
-*.csv
+**/*.csv
+!dataset_for_bda/*.csv
+./*.csv
