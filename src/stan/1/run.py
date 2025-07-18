@@ -98,45 +98,6 @@ def prepare_data(input_file: str) -> dict:
 
     return stan_data
 
-def plot(fit):
-    # (ArviZの変換コードは同じ)
-    idata = az.from_cmdstanpy(
-        posterior=fit,
-        coords={'predictor': predictor_names},
-        dims={'beta': ['predictor']}
-    )
-
-    # フォレストプロットを描画
-    az.plot_forest(
-        idata,
-        var_names=['beta'],
-        filter_vars="regex",
-        combined=True,
-        hdi_prob=0.94,
-        figsize=(10, 8),
-        r_hat=False
-    )
-    plt.title('Effect of UI Problems on Usability Rating (beta coefficients)')
-
-    # -------------------------------------------------
-    # 変更点: plt.show() の代わりに plt.savefig() を使う
-    # -------------------------------------------------
-    plt.savefig('beta_forest_plot.png', dpi=300, bbox_inches='tight')
-    plt.close() # メモリ解放のためにプロットを閉じるのが良い習慣です
-    # -------------------------------------------------
-
-    print("フォレストプロットを 'beta_forest_plot.png' として保存しました。")
-    
-    # トレースプロットを描画
-    az.plot_trace(idata, var_names=['mu_alpha', 'sigma_alpha'])
-    plt.tight_layout()
-
-    # 画像として保存
-    plt.savefig('trace_plot.png', dpi=300, bbox_inches='tight')
-    plt.close()
-
-    print("トレースプロットを 'trace_plot.png' として保存しました。")
-
 def main():
     """
     メイン処理
@@ -181,7 +142,43 @@ def main():
     print(summary_df[summary_df.index.str.contains('|'.join(display_vars))])
     
     # プロットの生成
-    plot(fit)
+    # (ArviZの変換コードは同じ)
+    idata = az.from_cmdstanpy(
+        posterior=fit,
+        coords={'predictor': predictor_names},
+        dims={'beta': ['predictor']}
+    )
+
+    # フォレストプロットを描画
+    az.plot_forest(
+        idata,
+        var_names=['beta'],
+        filter_vars="regex",
+        combined=True,
+        hdi_prob=0.94,
+        figsize=(10, 8),
+        r_hat=False
+    )
+    plt.title('Effect of UI Problems on Usability Rating (beta coefficients)')
+
+    # -------------------------------------------------
+    # 変更点: plt.show() の代わりに plt.savefig() を使う
+    # -------------------------------------------------
+    plt.savefig('beta_forest_plot.png', dpi=300, bbox_inches='tight')
+    plt.close() # メモリ解放のためにプロットを閉じるのが良い習慣です
+    # -------------------------------------------------
+
+    print("フォレストプロットを 'beta_forest_plot.png' として保存しました。")
+    
+    # トレースプロットを描画
+    az.plot_trace(idata, var_names=['mu_alpha', 'sigma_alpha'])
+    plt.tight_layout()
+
+    # 画像として保存
+    plt.savefig('trace_plot.png', dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print("トレースプロットを 'trace_plot.png' として保存しました。")
 
 
 if __name__ == '__main__':

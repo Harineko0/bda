@@ -833,7 +833,7 @@ id,task_category,comments_category,comment_problem,comment_verb,comment_obj,aest
 1183,Media and content interaction,Usability of Buttons,button or icon allow user to see current location,add,boundary,8,8,8,4.0,4
 1185,User account management,Text Readability,abundance,identify,"more common language , such",6,6,6,3.0,3
 1186,User account management,Layout,heading,omit,one,4,6,5,3.0,3
-1187,User account management,Usability of Buttons,two,positioning use design software to ensure alignment,button or icon allow user to see current location,6,7,7,,4
+1187,User account management,Usability of Buttons,two,positioning use design software to ensure alignment,button or icon allow user to see current location,6,7,7,3.0,4
 1189,Customization of app settings and preferences,Usability of Buttons,menu option layout,change,breakfast icon,5,5,5,3.0,2
 1190,Customization of app settings and preferences,Usability of Buttons,systematic arrangement,move,button or icon allow user to see current location,7,7,7,4.0,4
 1191,Media and content interaction,Layout,same font size / type / color weight,add,pagination feature,6,6,6,3.0,3
@@ -2829,7 +2829,7 @@ id,task_category,comments_category,comment_problem,comment_verb,comment_obj,aest
 1184,Media and content interaction,Color Contrast,text color contrast,change,text color contrast,7,7,7,4.0,4
 1185,User account management,Text Readability,current button size,increase,current button size,6,6,6,3.0,3
 1186,User account management,Layout,information,maintain,more readable font,4,6,5,3.0,3
-1187,User account management,Usability of Buttons,head general,align,ranking text,6,7,7,,4
+1187,User account management,Usability of Buttons,head general,align,ranking text,6,7,7,3.0,4
 1188,Customization of app settings and preferences,Learnability,button or icon allow user to see current location,move,button or icon allow user to see current location,7,7,7,3.0,4
 1191,Media and content interaction,Layout,breakfast icon,increase,setting bar,6,6,6,3.0,3
 1192,Media and content interaction,Usability of Buttons,+ button,change,+ button,7,7,7,3.0,4
